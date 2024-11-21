@@ -3,6 +3,11 @@ package entity.Appointments;
 
 import java.time.LocalDateTime;
 
+/**
+ * Represents an appointment within the system.
+ * Includes details such as appointment ID, patient, doctor, date, time, and type.
+ * Provides methods to manage and retrieve appointment information.
+ */
 public class Appointment {
     private String appointmentId;
     private String patientId;
