@@ -5,6 +5,11 @@ import entity.Records.MedicalRecord;
 import entity.users.User;
 import util.UIUtils;
 
+/**
+ * Manages the update of personal information for a patient.
+ * Enables patients to modify their contact details, email address,
+ * and other personal information stored in the system.
+ */
 public class UpdatePersonalInfoAction implements PatientAction {
     private final MedicalRecordController medicalRecordController;
 
