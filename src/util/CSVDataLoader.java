@@ -1,3 +1,7 @@
+/**
+ * A utility class for loading and saving data to and from CSV files.
+ * Handles operations related to staff, patients, medications, and replenishment requests.
+ */
 package util;
 
 import entity.Medications.Medication;
@@ -8,13 +12,30 @@ import java.io.*;
 import java.time.LocalDate;
 import java.util.*;
 
+/**
+ * The {@code CSVDataLoader} class provides methods to load and save application data
+ * from and to CSV files. It supports loading user data (staff and patients), medication data,
+ * and replenishment requests, as well as saving updated staff data.
+ */
 public class CSVDataLoader {
+
+    /** File path for storing staff data. */
     private static final String STAFF_FILE = "data/staff.csv";
+
+    /** File path for storing patient data. */
     private static final String PATIENT_FILE = "data/patient.csv";
+
+    /** File path for storing medication data. */
     private static final String MEDICINE_FILE = "data/medicine.csv";
+
+    /** File path for storing replenishment request data. */
     private static final String REPLENISHMENT_FILE = "data/replenishment_requests.csv";
 
-
+    /**
+     * Loads all users (staff and patients) into a single map.
+     *
+     * @return a map of user IDs to {@link User} objects.
+     */
     public static Map<String, User> loadAllUsers() {
         Map<String, User> users = new HashMap<>();
         try {
@@ -26,6 +47,11 @@ public class CSVDataLoader {
         return users;
     }
 
+    /**
+     * Loads staff data from the CSV file.
+     *
+     * @return a map of staff IDs to {@link User} objects.
+     */
     public static Map<String, User> loadStaffData() {
         Map<String, User> staff = new HashMap<>();
         try (BufferedReader reader = new BufferedReader(new FileReader(STAFF_FILE))) {
@@ -54,6 +80,11 @@ public class CSVDataLoader {
         return staff;
     }
 
+    /**
+     * Loads patient data from the CSV file.
+     *
+     * @return a map of patient IDs to {@link Patient} objects.
+     */
     public static Map<String, User> loadPatientData() {
         Map<String, User> patients = new HashMap<>();
         try (BufferedReader reader = new BufferedReader(new FileReader(PATIENT_FILE))) {
@@ -78,6 +109,11 @@ public class CSVDataLoader {
         return patients;
     }
 
+    /**
+     * Loads medication data from the CSV file.
+     *
+     * @return a list of {@link Medication} objects.
+     */
     public static List<Medication> loadMedications() {
         List<Medication> medications = new ArrayList<>();
         try (BufferedReader reader = new BufferedReader(new FileReader(MEDICINE_FILE))) {
@@ -93,6 +129,11 @@ public class CSVDataLoader {
         return medications;
     }
 
+    /**
+     * Loads replenishment request data from the CSV file.
+     *
+     * @return a list of {@link ReplenishmentRequest} objects.
+     */
     public static List<ReplenishmentRequest> loadReplenishmentRequests() {
         List<ReplenishmentRequest> requests = new ArrayList<>();
         File file = new File(REPLENISHMENT_FILE);
@@ -114,6 +155,11 @@ public class CSVDataLoader {
         return requests;
     }
 
+    /**
+     * Saves staff data to the CSV file.
+     *
+     * @param staff a map of staff IDs to {@link User} objects to save.
+     */
     public static void saveStaffData(Map<String, User> staff) {
         try (PrintWriter writer = new PrintWriter(new FileWriter(STAFF_FILE))) {
             writer.println("Staff ID,Name,Role,Gender,Age");
