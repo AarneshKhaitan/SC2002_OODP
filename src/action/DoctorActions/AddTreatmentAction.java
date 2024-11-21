@@ -8,8 +8,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Handles the action of adding a new treatment for a patient.
- * Allows doctors to specify treatment details and associate it with a patient's medical record.
+ * Class responsible for adding treatment details to a patient's record.
+ * This class implements methods to capture and store treatment-related information,
+ * ensuring it is associated with the correct patient and diagnosis.
  */
 public class AddTreatmentAction implements DoctorAction {
     private final String patientId;
