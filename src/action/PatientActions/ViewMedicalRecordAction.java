@@ -9,26 +9,69 @@ import util.UIUtils;
 import java.util.List;
 
 /**
- * Provides functionality to view a patient's complete medical record.
- * Includes access to past diagnoses, treatments, prescriptions, and other medical details.
+ * Represents an action to view a patient's complete medical record.
+ * 
+ * <p>
+ * This class provides patients with access to their personal medical records, including:
+ * <ul>
+ *   <li>Personal details such as name, date of birth, and contact information.</li>
+ *   <li>Past diagnoses with details such as condition, doctor, and notes.</li>
+ *   <li>Treatment history including type, medications, and instructions.</li>
+ * </ul>
+ * </p>
+ * 
+ * <p>
+ * The class interacts with the {@link MedicalRecordController} to retrieve medical records
+ * and uses {@link UIUtils} for user interaction in the console-based UI.
+ * </p>
  */
 public class ViewMedicalRecordAction implements PatientAction {
+
+    /**
+     * Controller for managing patient medical records.
+     */
     private final MedicalRecordController medicalRecordController;
 
+     /**
+     * Constructs an instance of {@code ViewMedicalRecordAction}.
+     * 
+     * @param medicalRecordController The controller used to manage and retrieve medical records.
+     */
     public ViewMedicalRecordAction(MedicalRecordController medicalRecordController) {
         this.medicalRecordController = medicalRecordController;
     }
 
+    /**
+     * Executes the action to display the patient's complete medical record.
+     * 
+     * <p>
+     * The steps include:
+     * <ul>
+     *   <li>Retrieving the patient's medical record from the system.</li>
+     *   <li>Displaying personal information including contact details and medical identifiers.</li>
+     *   <li>Displaying past diagnoses with detailed information.</li>
+     *   <li>Displaying treatment history, including medications and instructions.</li>
+     * </ul>
+     * </p>
+     * 
+     * <p>
+     * If the medical record cannot be found, an error message is displayed.
+     * </p>
+     * 
+     * @param patient The {@link User} object representing the patient viewing their medical record.
+     */
     @Override
     public void execute(User patient) {
         UIUtils.displayHeader("Medical Record");
 
+        // Retrieve the patient's medical record
         MedicalRecord record = medicalRecordController.getPatientMedicalRecord(patient.getUserId());
         if (record == null) {
             UIUtils.displayError("Medical record not found.");
             return;
         }
 
+         // Display personal information
         System.out.println("\nPersonal Information:");
         System.out.printf("Patient ID: %s%n", record.getPatientId());
         System.out.printf("Name: %s%n", record.getName());
@@ -79,6 +122,7 @@ public class ViewMedicalRecordAction implements PatientAction {
                     treatment.getInstructions()
             ));
         }
+        // Pause for user review
         UIUtils.pressEnterToContinue();
     }
 }
