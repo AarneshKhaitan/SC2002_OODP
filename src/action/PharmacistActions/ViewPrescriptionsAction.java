@@ -9,6 +9,10 @@ import util.UIUtils;
 
 import java.util.List;
 
+/**
+ * Manages the retrieval and display of prescriptions assigned to the pharmacist.
+ * Enables pharmacists to view prescription details, including patient and medication information.
+ */
 public class ViewPrescriptionsAction implements PharmacistAction {
     @Override
     public void execute(User pharmacist) {
