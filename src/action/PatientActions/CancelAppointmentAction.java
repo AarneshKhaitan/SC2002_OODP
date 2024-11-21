@@ -8,6 +8,11 @@ import util.UIUtils;
 
 import java.util.List;
 
+/**
+ * Handles the action of canceling an existing appointment.
+ * Allows patients to remove appointments they can no longer attend,
+ * freeing up slots for others.
+ */
 public class CancelAppointmentAction implements PatientAction {
     private final PatientAppointmentController appointmentController;
 
