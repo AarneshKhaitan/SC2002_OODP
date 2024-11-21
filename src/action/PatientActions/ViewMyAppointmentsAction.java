@@ -8,6 +8,10 @@ import util.UIUtils;
 
 import java.util.List;
 
+/**
+ * Displays a list of all upcoming appointments for a patient.
+ * Provides a clear overview for better appointment management.
+ */
 public class ViewMyAppointmentsAction implements PatientAction {
     private final PatientAppointmentController appointmentController;
 
