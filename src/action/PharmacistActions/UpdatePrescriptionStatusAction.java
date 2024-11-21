@@ -11,6 +11,11 @@ import util.UIUtils;
 
 import java.util.List;
 
+/**
+ * Handles updating the status of a prescription.
+ * Allows pharmacists to mark prescriptions as filled, in progress, or on hold.
+ * Ensures accurate tracking of prescription processing.
+ */
 public class UpdatePrescriptionStatusAction implements PharmacistAction {
     private final InventoryManager inventoryManager;
 
