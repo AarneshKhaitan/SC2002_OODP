@@ -8,20 +8,73 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
+/**
+ * Manages the creation, retrieval, and persistence of medical records, diagnoses, and treatments.
+ * 
+ * <p>
+ * This singleton class provides centralized management for:
+ * <ul>
+ *   <li>Loading and saving medical record data, including diagnoses and treatments.</li>
+ *   <li>Retrieving and updating patient information.</li>
+ *   <li>Adding new diagnoses and treatments to medical records.</li>
+ * </ul>
+ * </p>
+ * 
+ * <p>
+ * The data is stored in three CSV files:
+ * <ul>
+ *   <li>{@code MedicalRecords.csv} for basic patient information.</li>
+ *   <li>{@code Diagnoses.csv} for patient diagnoses.</li>
+ *   <li>{@code Treatments.csv} for patient treatments.</li>
+ * </ul>
+ * </p>
+ */
 public class MedicalRecordManager {
+
+    /**
+     * File path for storing patient medical records.
+     */
     private static final String MEDICAL_RECORDS_FILE = "data/MedicalRecords.csv";
+
+    /**
+     * File path for storing diagnoses data.
+     */
     private static final String DIAGNOSES_FILE = "data/Diagnoses.csv";
+
+     /**
+     * File path for storing treatments data.
+     */
     private static final String TREATMENTS_FILE = "data/treatments.csv";
 
+     /**
+     * Date formatter for parsing and formatting dates in records.
+     */
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+    /**
+     * Singleton instance of the manager.
+     */
     private static MedicalRecordManager instance;
+
+     /**
+     * Map storing medical records, keyed by patient ID.
+     */
     private final Map<String, MedicalRecord> medicalRecords;
 
+    /**
+     * Private constructor for singleton implementation.
+     * Initializes the medical records map and loads data from files.
+     */
     private MedicalRecordManager() {
         medicalRecords = new HashMap<>();
         loadData();
     }
 
+    /**
+     * Retrieves the singleton instance of the manager.
+     * 
+     * @return The singleton instance of {@code MedicalRecordManager}.
+     */
     public static MedicalRecordManager getInstance() {
         if (instance == null) {
             instance = new MedicalRecordManager();
@@ -29,12 +82,18 @@ public class MedicalRecordManager {
         return instance;
     }
 
+    /**
+     * Loads all medical records, diagnoses, and treatments from their respective CSV files.
+     */
     private void loadData() {
         loadMedicalRecords();
         loadDiagnoses();
         loadTreatments();
     }
 
+     /**
+     * Loads basic patient information from the {@code MedicalRecords.csv} file.
+     */
     private void loadMedicalRecords() {
         try (BufferedReader reader = new BufferedReader(new FileReader(MEDICAL_RECORDS_FILE))) {
             String header = reader.readLine();  // Skip header
@@ -66,6 +125,9 @@ public class MedicalRecordManager {
         }
     }
 
+     /**
+     * Loads patient diagnoses from the {@code Diagnoses.csv} file and associates them with medical records.
+     */
     private void loadDiagnoses() {
         try (BufferedReader reader = new BufferedReader(new FileReader(DIAGNOSES_FILE))) {
             String header = reader.readLine();  // Skip header
@@ -98,6 +160,9 @@ public class MedicalRecordManager {
         }
     }
 
+    /**
+     * Loads patient treatments from the {@code Treatments.csv} file and associates them with medical records.
+     */
     private void loadTreatments() {
         try (BufferedReader reader = new BufferedReader(new FileReader(TREATMENTS_FILE))) {
             String header = reader.readLine();  // Skip header
@@ -133,10 +198,25 @@ public class MedicalRecordManager {
     }
 
     // Public methods
+
+    /**
+     * Retrieves a medical record for a specific patient.
+     *
+     * @param patientId The unique identifier of the patient.
+     * @return The {@link MedicalRecord} object for the given patient, or {@code null} if not found.
+     */
     public MedicalRecord getMedicalRecord(String patientId) {
         return medicalRecords.get(patientId);
     }
 
+     /**
+     * Updates the contact information (phone number and email) for a specific patient.
+     *
+     * @param patientId   The unique identifier of the patient.
+     * @param phoneNumber The new phone number to update.
+     * @param email       The new email address to update.
+     * @return {@code true} if the contact information was successfully updated, {@code false} if the patient record was not found.
+     */
     public boolean updateContactInfo(String patientId, String phoneNumber, String email) {
         MedicalRecord record = medicalRecords.get(patientId);
         if (record == null) return false;
@@ -147,6 +227,13 @@ public class MedicalRecordManager {
         return true;
     }
 
+    /**
+     * Adds a new diagnosis to a specific patient's medical record.
+     *
+     * @param patientId The unique identifier of the patient.
+     * @param diagnosis The {@link Diagnosis} object to add to the patient's record.
+     * @return {@code true} if the diagnosis was successfully added, {@code false} if the patient record was not found.
+     */
     public boolean addDiagnosis(String patientId, Diagnosis diagnosis) {
         MedicalRecord record = medicalRecords.get(patientId);
         if (record == null) return false;
@@ -156,6 +243,14 @@ public class MedicalRecordManager {
         return true;
     }
 
+    
+    /**
+     * Adds a new treatment to a specific patient's medical record.
+     *
+     * @param patientId The unique identifier of the patient.
+     * @param treatment The {@link Treatment} object to add to the patient's record.
+     * @return {@code true} if the treatment was successfully added, {@code false} if the patient record was not found.
+     */
     public boolean addTreatment(String patientId, Treatment treatment) {
         MedicalRecord record = medicalRecords.get(patientId);
         if (record == null) return false;
@@ -165,6 +260,13 @@ public class MedicalRecordManager {
         return true;
     }
 
+     /**
+     * Saves all medical records to the {@code MedicalRecords.csv} file.
+     *
+     * <p>
+     * This method writes the current in-memory data of medical records to the persistent storage file.
+     * </p>
+     */
     private void saveMedicalRecords() {
         try (PrintWriter writer = new PrintWriter(new FileWriter(MEDICAL_RECORDS_FILE))) {
             writer.println("PatientId,Name,DateOfBirth,Gender,PhoneNumber,EmailAddress,BloodType");
@@ -185,6 +287,13 @@ public class MedicalRecordManager {
         }
     }
 
+    /**
+     * Saves all diagnoses to the {@code Diagnoses.csv} file.
+     *
+     * <p>
+     * This method writes the current in-memory diagnoses data to the persistent storage file.
+     * </p>
+     */
     private void saveDiagnoses() {
         try (PrintWriter writer = new PrintWriter(new FileWriter(DIAGNOSES_FILE))) {
             writer.println("PatientId,Date,DoctorId,Condition,Notes");
@@ -205,6 +314,13 @@ public class MedicalRecordManager {
         }
     }
 
+     /**
+     * Saves all treatments to the {@code Treatments.csv} file.
+     *
+     * <p>
+     * This method writes the current in-memory treatments data to the persistent storage file.
+     * </p>
+     */
     private void saveTreatments() {
         try (PrintWriter writer = new PrintWriter(new FileWriter(TREATMENTS_FILE))) {
             writer.println("PatientId,Date,DoctorId,TreatmentType,Medications,Instructions");
