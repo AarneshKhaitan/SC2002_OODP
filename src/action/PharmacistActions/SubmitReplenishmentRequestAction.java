@@ -6,6 +6,10 @@ import util.InventoryManager;
 
 import java.util.Scanner;
 
+/**
+ * Facilitates submitting requests for inventory replenishment.
+ * Allows pharmacists to indicate low-stock items and request restocking from suppliers or management.
+ */
 public class SubmitReplenishmentRequestAction implements PharmacistAction {
     private final InventoryManager inventoryManager;
 
