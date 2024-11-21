@@ -7,6 +7,10 @@ import entity.users.User;
 
 import java.util.List;
 
+/**
+ * Represents the action of viewing upcoming appointments.
+ * Allows doctors to review scheduled appointments for better preparation.
+ */
 public class ViewUpcomingAppointmentsAction implements DoctorAction {
     private final DoctorAppointmentControllerImpl appointmentController;
 
