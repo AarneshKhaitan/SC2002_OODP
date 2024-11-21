@@ -8,7 +8,10 @@ import entity.users.User;
 import util.UIUtils;
 import java.util.List;
 
-
+/**
+ * Provides functionality to view a patient's complete medical record.
+ * Includes access to past diagnoses, treatments, prescriptions, and other medical details.
+ */
 public class ViewMedicalRecordAction implements PatientAction {
     private final MedicalRecordController medicalRecordController;
 
