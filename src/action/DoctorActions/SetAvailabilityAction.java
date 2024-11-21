@@ -11,8 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Handles the action of setting a doctor's availability.
- * Allows doctors to define their working hours and availability for appointments.
+ * Manages a doctor's availability settings within the system.
+ * Allows the configuration of working hours, days off, and other availability constraints.
  */
 public class SetAvailabilityAction implements DoctorAction {
     private final DoctorAppointmentController appointmentController;
