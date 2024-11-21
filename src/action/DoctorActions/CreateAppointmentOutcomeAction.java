@@ -8,8 +8,8 @@ import util.AppointmentOutcomeManager;
 import util.UIUtils;
 
 /**
- * Handles the creation of an appointment outcome.
- * Allows doctors to document the results or outcomes of a completed appointment.
+ * Handles the creation and storage of outcomes for completed appointments.
+ * This includes documenting diagnoses, treatments provided, and follow-up requirements.
  */
 public class CreateAppointmentOutcomeAction implements DoctorAction {
     private final DoctorAppointmentController appointmentController;
