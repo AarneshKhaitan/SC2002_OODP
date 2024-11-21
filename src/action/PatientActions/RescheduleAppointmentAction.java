@@ -10,6 +10,11 @@ import util.UIUtils;
 import java.time.LocalDateTime;
 import java.util.List;
 
+/**
+ * Handles the action of rescheduling an existing appointment.
+ * Allows patients to select a new date and time from available slots
+ * and updates the appointment accordingly.
+ */
 public class RescheduleAppointmentAction implements PatientAction {
     private final PatientAppointmentController appointmentController;
 
