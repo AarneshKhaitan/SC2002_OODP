@@ -11,22 +11,34 @@ import java.util.stream.Collectors;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Comparator;
-
+/**
+ * Manages appointment scheduling, storage, and retrieval in the system.
+ * Handles loading, saving, and validating appointment data, as well as managing available slots.
+ */
 public class AppointmentManager {
-    private static final String APPOINTMENTS_FILE = "data/appointment_slots.csv";
-    private static final String SLOTS_FILE = "data/appointment.csv";
+    private static final String APPOINTMENTS_FILE = "data/appointment_slots.csv"; // File storing appointment data
+    private static final String SLOTS_FILE = "data/appointment.csv"; // File storing available slots
     private static AppointmentManager instance;
 
-    private final List<Appointment> appointments;
-    private final List<AppointmentSlot> availableSlots;
+    private final List<Appointment> appointments; // List of all appointments
+    private final List<AppointmentSlot> availableSlots; // List of available appointment slots
     private final DateTimeFormatter formatter = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
 
+    
+    /**
+     * Private constructor to prevent instantiation. Initializes lists and loads data from files.
+     */
     private AppointmentManager() {
         appointments = new ArrayList<>();
         availableSlots = new ArrayList<>();
         loadData();
     }
 
+        /**
+     * Retrieves the singleton instance of the AppointmentManager.
+     *
+     * @return the instance of AppointmentManager
+     */
     public static AppointmentManager getInstance() {
         if (instance == null) {
             instance = new AppointmentManager();
@@ -35,10 +47,17 @@ public class AppointmentManager {
     }
 
     // Data Loading Methods
+        /**
+     * Loads appointment data from the file and populates the appointments list.
+     */
     private void loadData() {
         loadAppointments();
         loadSlots();
     }
+
+        /**
+     * Loads appointments from the file and adds them to the appointments list.
+     */
     private void loadAppointments() {
         File file = new File(APPOINTMENTS_FILE);
         if (!file.exists() || file.length() == 0) {
@@ -83,6 +102,9 @@ public class AppointmentManager {
         }
     }
 
+        /**
+     * Loads available appointment slots from the file and adds them to the availableSlots list.
+     */
     private void loadSlots() {
         File file = new File(SLOTS_FILE);
         if (!file.exists()) {
@@ -113,6 +135,10 @@ public class AppointmentManager {
 
 
     // File Creation Methods
+
+        /**
+     * Creates the appointments file with the necessary header if it does not exist.
+     */
     private void createAppointmentsFile() {
         try (PrintWriter writer = new PrintWriter(new FileWriter(APPOINTMENTS_FILE))) {
             writer.println("AppointmentId,PatientId,DoctorId,DateTime,Type,Status");
@@ -121,6 +147,10 @@ public class AppointmentManager {
         }
     }
 
+    
+    /**
+     * Creates the slots file with the necessary header if it does not exist.
+     */
     private void createSlotsFile() {
         try (PrintWriter writer = new PrintWriter(new FileWriter(SLOTS_FILE))) {
             writer.println("DoctorId,StartTime,IsAvailable");
@@ -130,6 +160,11 @@ public class AppointmentManager {
     }
 
     // Data Saving Methods
+
+    
+    /**
+     * Saves the current appointments list to the appointments file.
+     */
     private void saveAppointments() {
         try (PrintWriter writer = new PrintWriter(new FileWriter(APPOINTMENTS_FILE))) {
             writer.println("AppointmentId,PatientId,DoctorId,DateTime,Type,Status");
@@ -149,6 +184,10 @@ public class AppointmentManager {
         }
     }
 
+    
+    /**
+     * Saves the current available slots list to the slots file.
+     */
     private void saveSlots() {
         try (PrintWriter writer = new PrintWriter(new FileWriter(SLOTS_FILE))) {
             writer.println("DoctorId,StartTime,IsAvailable");
@@ -166,6 +205,14 @@ public class AppointmentManager {
     }
 
     // Public Methods for Appointment Management
+
+    
+    /**
+     * Retrieves a list of available slots for a given doctor.
+     *
+     * @param doctorId the ID of the doctor
+     * @return a list of available appointment slots
+     */
     public List<AppointmentSlot> getAvailableSlots(String doctorId) {
         return availableSlots.stream()
                 .filter(slot -> slot.getDoctorId().equals(doctorId) &&
@@ -175,6 +222,16 @@ public class AppointmentManager {
                 .collect(Collectors.toList());
     }
 
+    
+    /**
+     * Schedules an appointment if the slot is available.
+     *
+     * @param patientId the ID of the patient
+     * @param doctorId  the ID of the doctor
+     * @param dateTime  the date and time of the appointment
+     * @param type      the type of appointment
+     * @return {@code true} if the appointment is scheduled successfully, {@code false} otherwise
+     */
     public boolean scheduleAppointment(String patientId, String doctorId,
                                        LocalDateTime dateTime, String type) {
         Optional<AppointmentSlot> slot = availableSlots.stream()
@@ -196,6 +253,13 @@ public class AppointmentManager {
         return true;
     }
 
+    
+    /**
+     * Cancels an appointment and makes the associated slot available again.
+     *
+     * @param appointmentId the ID of the appointment to cancel
+     * @return {@code true} if the appointment was cancelled successfully, {@code false} otherwise
+     */
     public boolean cancelAppointment(String appointmentId) {
         Optional<Appointment> appointment = appointments.stream()
                 .filter(a -> a.getAppointmentId().equals(appointmentId))
@@ -218,6 +282,14 @@ public class AppointmentManager {
         return true;
     }
 
+        // Additional Methods for Appointment Management
+
+    /**
+     * Retrieves a list of appointments for a given doctor.
+     *
+     * @param doctorId the ID of the doctor
+     * @return a list of appointments for the doctor
+     */
     public List<Appointment> getAppointmentsForDoctor(String doctorId) {
         return appointments.stream()
                 .filter(a -> a.getDoctorId().equals(doctorId))
@@ -225,6 +297,13 @@ public class AppointmentManager {
                 .collect(Collectors.toList());
     }
 
+    
+    /**
+     * Retrieves a list of appointments for a given patient.
+     *
+     * @param patientId the ID of the patient
+     * @return a list of appointments for the patient
+     */
     public List<Appointment> getAppointmentsForPatient(String patientId) {
         return appointments.stream()
                 .filter(a -> a.getPatientId().equals(patientId))
@@ -232,6 +311,13 @@ public class AppointmentManager {
                 .collect(Collectors.toList());
     }
 
+    
+    /**
+     * Retrieves a list of upcoming appointments for a doctor.
+     *
+     * @param doctorId the ID of the doctor
+     * @return a list of upcoming appointments for the doctor
+     */
     public List<Appointment> getDoctorUpcomingAppointments(String doctorId) {
         LocalDateTime now = LocalDateTime.now();
         return appointments.stream()
@@ -242,6 +328,14 @@ public class AppointmentManager {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * Retrieves a list of appointments for a specific doctor with a given status.
+     *
+     * @param doctorId The ID of the doctor.
+     * @param status   The status of the appointments to filter.
+     * @return A sorted list of appointments matching the doctor and status.
+     */
+    
     public List<Appointment> getAppointmentsByDoctorAndStatus(String doctorId,
                                                               Appointment.AppointmentStatus status) {
         return appointments.stream()
@@ -250,6 +344,13 @@ public class AppointmentManager {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * Updates the status of an appointment.
+     *
+     * @param appointmentId The ID of the appointment to update.
+     * @param status        The new status to set.
+     * @return true if the appointment was updated successfully, false otherwise.
+     */
     public boolean updateAppointmentStatus(String appointmentId,
                                            Appointment.AppointmentStatus status) {
         Optional<Appointment> appointment = appointments.stream()
@@ -263,6 +364,13 @@ public class AppointmentManager {
         return true;
     }
 
+    /**
+     * Adds new available slots for a specific doctor.
+     *
+     * @param doctorId The ID of the doctor.
+     * @param slots    A list of LocalDateTime objects representing the new slots.
+     * @return true after successfully adding the slots.
+     */
     public boolean addDoctorSlots(String doctorId, List<LocalDateTime> slots) {
         for (LocalDateTime slot : slots) {
             availableSlots.add(new AppointmentSlot(doctorId, slot));
@@ -271,6 +379,12 @@ public class AppointmentManager {
         return true;
     }
 
+    /**
+     * Retrieves an appointment by its ID.
+     *
+     * @param appointmentId The ID of the appointment.
+     * @return The Appointment object, or null if not found.
+     */
     public Appointment getAppointment(String appointmentId) {
         return appointments.stream()
                 .filter(a -> a.getAppointmentId().equals(appointmentId))
@@ -279,10 +393,19 @@ public class AppointmentManager {
     }
 
     // Utility Methods
+    
     private String generateAppointmentId() {
         return "APT" + System.currentTimeMillis();
     }
+    
 
+    
+    /**
+     * Marks a specific slot as available for a doctor.
+     *
+     * @param doctorId The ID of the doctor.
+     * @param dateTime The date and time of the slot to mark as available.
+     */
     public void markSlotAsAvailable(String doctorId, LocalDateTime dateTime) {
         availableSlots.stream()
                 .filter(slot -> slot.getDoctorId().equals(doctorId) &&
@@ -292,6 +415,12 @@ public class AppointmentManager {
         saveSlots();
     }
 
+        /**
+     * Marks a specific slot as unavailable for a doctor.
+     *
+     * @param doctorId The ID of the doctor.
+     * @param dateTime The date and time of the slot to mark as unavailable.
+     */
     public void markSlotAsUnavailable(String doctorId, LocalDateTime dateTime) {
         availableSlots.stream()
                 .filter(slot -> slot.getDoctorId().equals(doctorId) &&
@@ -301,6 +430,12 @@ public class AppointmentManager {
         saveSlots();
     }
 
+        /**
+     * Updates an existing appointment with new details.
+     *
+     * @param appointment The updated Appointment object.
+     * @return true if the update was successful, false otherwise.
+     */
     public boolean updateAppointment(Appointment appointment) {
         int index = -1;
         for (int i = 0; i < appointments.size(); i++) {
@@ -319,6 +454,15 @@ public class AppointmentManager {
         return false;
     }
     // Rescheduling Methods
+
+    
+    /**
+     * Reschedules an appointment to a new date and time.
+     *
+     * @param appointmentId The ID of the appointment to reschedule.
+     * @param newDateTime   The new date and time for the appointment.
+     * @return true if the rescheduling was successful, false otherwise.
+     */
     public boolean rescheduleAppointment(String appointmentId, LocalDateTime newDateTime) {
         // Find the appointment
         Optional<Appointment> appointmentOpt = appointments.stream()
@@ -370,6 +514,12 @@ public class AppointmentManager {
         return true;
     }
 
+        /**
+     * Retrieves a list of reschedulable appointments for a specific patient.
+     *
+     * @param patientId The ID of the patient.
+     * @return A sorted list of reschedulable appointments.
+     */
     public List<Appointment> getReschedulableAppointments(String patientId) {
         return appointments.stream()
                 .filter(a -> a.getPatientId().equals(patientId) &&
@@ -380,6 +530,12 @@ public class AppointmentManager {
                 .collect(Collectors.toList());
     }
 
+       /**
+     * Checks if a specific appointment is reschedulable.
+     *
+     * @param appointmentId The ID of the appointment to check.
+     * @return true if the appointment can be rescheduled, false otherwise.
+     */
     public boolean isAppointmentReschedulable(String appointmentId) {
         return appointments.stream()
                 .filter(a -> a.getAppointmentId().equals(appointmentId))
@@ -390,6 +546,12 @@ public class AppointmentManager {
                 .orElse(false);
     }
 
+       /**
+     * Retrieves a list of available slots for rescheduling an appointment.
+     *
+     * @param appointmentId The ID of the appointment to reschedule.
+     * @return A list of available AppointmentSlot objects.
+     */
     public List<AppointmentSlot> getAvailableSlotsForRescheduling(String appointmentId) {
         Optional<Appointment> appointmentOpt = appointments.stream()
                 .filter(a -> a.getAppointmentId().equals(appointmentId))
@@ -411,6 +573,13 @@ public class AppointmentManager {
                 .collect(Collectors.toList());
     }
 
+        /**
+     * Validates a rescheduling request for an appointment.
+     *
+     * @param appointmentId The ID of the appointment.
+     * @param newDateTime   The proposed new date and time.
+     * @return true if the reschedule request is valid, false otherwise.
+     */
     public boolean validateRescheduleRequest(String appointmentId, LocalDateTime newDateTime) {
         Optional<Appointment> appointmentOpt = appointments.stream()
                 .filter(a -> a.getAppointmentId().equals(appointmentId))
@@ -440,6 +609,16 @@ public class AppointmentManager {
     }
 
     // Additional helper method for handling rescheduling conflicts
+    
+    /**
+     * Handles conflicts for rescheduling by checking if the patient has other appointments
+     * at the proposed time.
+     *
+     * @param patientId   The ID of the patient.
+     * @param newDateTime The proposed new date and time.
+     * @return true if no conflicts exist, false otherwise.
+     */
+
     private boolean handleReschedulingConflicts(String patientId, LocalDateTime newDateTime) {
         // Check if patient has any other appointments at the same time
         return appointments.stream()
@@ -447,24 +626,51 @@ public class AppointmentManager {
                         a.getDateTime().equals(newDateTime) &&
                         a.getStatus() != Appointment.AppointmentStatus.CANCELLED);
     }
+
+        /**
+     * Retrieves all appointments sorted by their date and time.
+     *
+     * @return A sorted list of all appointments.
+     */
     public List<Appointment> getAllAppointments() {
         return appointments.stream()
                 .sorted(Comparator.comparing(Appointment::getDateTime))
                 .collect(Collectors.toList());
     }
 
+        /**
+     * Retrieves a list of appointments filtered by their status.
+     *
+     * @param status The status to filter by.
+     * @return A sorted list of appointments matching the status.
+     */
     public List<Appointment> getAppointmentsByStatus(Appointment.AppointmentStatus status) {
         return appointments.stream()
                 .filter(appointment -> appointment.getStatus() == status)
                 .sorted(Comparator.comparing(Appointment::getDateTime))
                 .collect(Collectors.toList());
     }
+
+        /**
+     * Retrieves a list of appointments scheduled for a specific date.
+     *
+     * @param date The date to filter by.
+     * @return A sorted list of appointments on the given date.
+     */
     public List<Appointment> getAppointmentsByDate(LocalDate date) {
         return appointments.stream()
                 .filter(appointment -> appointment.getDateTime().toLocalDate().equals(date))
                 .sorted(Comparator.comparing(Appointment::getDateTime))
                 .collect(Collectors.toList());
     }
+
+    
+    /**
+     * Retrieves appointment statistics such as total appointments, counts by status,
+     * and counts by doctor.
+     *
+     * @return A map containing appointment statistics.
+     */
     public Map<String, Integer> getAppointmentStatistics() {
         Map<String, Integer> stats = new HashMap<>();
 
