@@ -5,16 +5,27 @@ import controller.Login.LoginController;
 import controller.Login.LoginResult;
 import entity.users.User;
 import util.UIUtils;
-
+/**
+ * Represents the login interface for the Hospital Management System.
+ * Provides functionality for user authentication and redirection to role-specific menus.
+ */
 public class LoginUI {
-    private final LoginController loginController;
-    private final MenuFactory menuFactory;
-
+    private final LoginController loginController; // Controller for handling login logic
+    private final MenuFactory menuFactory; // Factory for creating role-specific menus
+    
+    /**
+     * Constructs a LoginUI instance.
+     * Initializes the login controller and menu factory.
+     */
+    
     public LoginUI() {
         this.loginController = LoginController.getInstance();
         this.menuFactory = new MenuFactory();
     }
-
+     /**
+     * Displays the login menu and handles user interaction.
+     * Users can either log in or exit the system.
+     */
     public void display() {
         while (true) {
             UIUtils.displayHeader("Hospital Management System Login");
@@ -31,7 +42,9 @@ public class LoginUI {
             handleLogin();
         }
     }
-
+      /**
+     * Handles the login process, including credential verification and role-based redirection.
+     */
     private void handleLogin() {
         String userId = UIUtils.promptForString("Enter User ID");
         String password = UIUtils.promptForString("Enter Password");
@@ -52,7 +65,14 @@ public class LoginUI {
             case INVALID_CREDENTIALS -> UIUtils.displayError("Invalid credentials. Please try again.");
         }
     }
-
+    
+    /**
+     * Handles password change for first-time login users.
+     *
+     * @param userId the ID of the user whose password needs to be changed
+     * @return {@code true} if the password is successfully changed, {@code false} otherwise
+     */
+    
     private boolean handleFirstTimePasswordChange(String userId) {
         UIUtils.displayHeader("First Time Login - Password Change Required");
         System.out.println("Password Requirements:");
@@ -92,6 +112,10 @@ public class LoginUI {
                 password.matches(".*\\d.*") &&
                 password.matches(".*[A-Z].*");
     }
+
+      /**
+     * Redirects the user to their role-specific menu after successful login.
+     */
 
     private void redirectToRoleMenu() {
         User currentUser = loginController.getCurrentUser();
