@@ -4,6 +4,10 @@ import util.UIUtils;
 import controller.MedicalRecords.MedicalRecordController;
 import entity.users.User;
 
+/**
+ * Handles the action of updating patient medical records.
+ * Allows doctors to modify or add new information to existing records.
+ */
 public class UpdatePatientRecordsAction implements DoctorAction {
     private final MedicalRecordController medicalRecordController;
 
