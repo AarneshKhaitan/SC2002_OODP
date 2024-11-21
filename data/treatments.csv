@@ -1,0 +1,4 @@
+PatientId,Date,DoctorId,TreatmentType,Medications,Instructions
+P1001,2024-11-21,D001,Rest,Paracetamol,1 every 5 hours till temperature drops
+P1001,2024-11-21,D001,Medicines,Allegra,1 per day
+P1002,2024-11-20,D002,Rest with fever reducing medication,Paracetamol;Nasal Drops,Paracetamol as per convenience and Nasal Drops once before bed

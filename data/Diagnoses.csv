@@ -1,0 +1,7 @@
+PatientId,Date,DoctorId,Condition,Notes
+P1001,2024-11-20,D001,Fever,100.5
+P1001,2024-11-20,D001,Fractured leg,Need plaster for 1.5 months
+P1001,2024-11-21,D001,Fever,n/a
+P1001,2024-11-21,D001,Allegries,n/a
+P1001,2024-11-21,D001,Headache,n/a
+P1002,2024-11-20,D002,Viral Fever Influenza,101.9 fever with chills and runny nose

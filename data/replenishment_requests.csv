@@ -1,0 +1,7 @@
+ID,MedicationName,Quantity,PharmacistId,Status
+d23b66cc-c091-4567-99d4-d0b113310e18,Paracetamol,10,PharmacistID,Approved
+8229afa8-6079-41a3-8c26-7accd0fc160e,Allegra,10,PharmacistID,Approved
+2cd23b00-35f3-4ac7-ae17-9729b9c0918c,Paracetamol,10,PharmacistID,Approved
+9c820ccb-5cd0-43bb-8045-9587c43cc193,Paracetamol,1,PharmacistID,Approved
+7fb9164c-01ba-46f0-b4b4-2d824ef74650,Paracetamol,-10,PharmacistID,Approved
+06b4c847-b159-48b6-878a-8d87029dbd70,Ibuprofen,3,P001,Rejected

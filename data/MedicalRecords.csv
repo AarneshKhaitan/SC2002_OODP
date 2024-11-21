@@ -1,0 +1,4 @@
+PatientId,Name,DateOfBirth,Gender,PhoneNumber,EmailAddress,BloodType
+P1003,Charlie White,1990-07-08,Male,3456789012,charlie.white@example.com,0-
+P1001,Alice Brown,1980-05-14,Female,1234567890,alice.brown@example.com,A+
+P1002,Bob Stone,1975-11-22,Male,2345678901,stone@example.com,B+
