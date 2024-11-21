@@ -10,14 +10,44 @@ import util.UIUtils;
 import java.util.List;
 
 /**
- * Manages the retrieval and display of prescriptions assigned to the pharmacist.
- * Enables pharmacists to view prescription details, including patient and medication information.
+ * Represents an action to retrieve and display pending prescriptions assigned to the pharmacist.
+ * 
+ * <p>
+ * This class allows pharmacists to view detailed information about pending prescriptions,
+ * including:
+ * <ul>
+ *   <li>Appointment details (ID, patient, date, type).</li>
+ *   <li>Prescribed medications that are awaiting fulfillment.</li>
+ * </ul>
+ * It integrates with the {@link AppointmentOutcomeManager} to fetch pending prescriptions and
+ * uses {@link UIUtils} to display the information in a user-friendly format.
+ * </p>
  */
 public class ViewPrescriptionsAction implements PharmacistAction {
+
+     /**
+     * Executes the action to display all pending prescriptions assigned to the pharmacist.
+     * 
+     * <p>
+     * The steps include:
+     * <ul>
+     *   <li>Retrieving all pending prescriptions from the {@link AppointmentOutcomeManager}.</li>
+     *   <li>Displaying detailed information for each prescription, grouped by appointment.</li>
+     *   <li>Displaying patient and medication details for prescriptions with a "Pending" status.</li>
+     * </ul>
+     * </p>
+     * 
+     * <p>
+     * If no pending prescriptions are found, an error message is displayed.
+     * </p>
+     * 
+     * @param pharmacist The {@link User} object representing the pharmacist viewing the prescriptions.
+     */
     @Override
     public void execute(User pharmacist) {
         UIUtils.displayHeader("Pending Prescriptions");
 
+        // Retrieve pending prescriptions
         List<AppointmentOutcomeRecord> recordsWithPendingPrescriptions =
                 AppointmentOutcomeManager.getInstance().getPendingPrescriptions();
 
@@ -26,6 +56,7 @@ public class ViewPrescriptionsAction implements PharmacistAction {
             return;
         }
 
+        // Display prescription details grouped by appointment
         for (AppointmentOutcomeRecord record : recordsWithPendingPrescriptions) {
             System.out.printf("""
             ----------------------------------------
@@ -49,6 +80,8 @@ public class ViewPrescriptionsAction implements PharmacistAction {
             }
             System.out.println("----------------------------------------");
         }
+        
+        // Pause for user review
         UIUtils.pressEnterToContinue();
     }
 }
