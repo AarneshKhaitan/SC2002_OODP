@@ -3,8 +3,8 @@ package action.DoctorActions;
 import entity.users.User;
 
 /**
- * Abstract base class for all doctor-related actions.
- * Provides a common interface or shared functionality for specific doctor actions.
+ * Abstract base class for doctor-specific actions.
+ * Encapsulates shared functionality or contract enforcement for all doctor action implementations.
  */
 public interface DoctorAction {
     void execute(User doctor);
