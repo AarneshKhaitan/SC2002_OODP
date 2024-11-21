@@ -4,11 +4,23 @@ import entity.Appointments.Appointment;
 
 import java.util.List;
 
+/**
+ * Utility class for displaying appointment details.
+ * Provides a method to display a list of appointments in a formatted manner.
+ */
 public class AppointmentDisplayUtil {
+
+    // Private constructor to prevent instantiation
     private AppointmentDisplayUtil() {
-        // Private constructor to prevent instantiation
     }
 
+    /**
+     * Displays a list of appointments with details such as appointment ID, doctor ID,
+     * date & time, type, and status.
+     * If the list of appointments is empty, a message is displayed indicating no appointments.
+     *
+     * @param appointments the list of appointments to be displayed
+     */
     public static void displayAppointments(List<Appointment> appointments) {
         if (appointments.isEmpty()) {
             System.out.println("No appointments to display.");
@@ -33,3 +45,4 @@ public class AppointmentDisplayUtil {
         System.out.println("----------------------------------------");
     }
 }
+
