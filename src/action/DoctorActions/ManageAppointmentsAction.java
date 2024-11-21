@@ -8,8 +8,8 @@ import entity.users.User;
 import java.util.List;
 
 /**
- * Represents the action of managing appointments.
- * Includes functionality for creating, updating, or canceling appointments.
+ * Class responsible for managing appointments.
+ * Includes functionality for creating new appointments, updating existing ones, and canceling if necessary.
  */
 public class ManageAppointmentsAction implements DoctorAction {
     private final DoctorAppointmentControllerImpl appointmentController;
