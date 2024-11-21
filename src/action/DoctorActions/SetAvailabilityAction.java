@@ -10,6 +10,10 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Handles the action of setting a doctor's availability.
+ * Allows doctors to define their working hours and availability for appointments.
+ */
 public class SetAvailabilityAction implements DoctorAction {
     private final DoctorAppointmentController appointmentController;
 
