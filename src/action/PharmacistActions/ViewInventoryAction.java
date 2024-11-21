@@ -4,6 +4,10 @@ import entity.users.User;
 import entity.Medications.Medication;
 import util.InventoryManager;
 
+/**
+ * Handles viewing the inventory details for the pharmacy.
+ * Provides information on current stock levels, expiration dates, and available medications.
+ */
 public class ViewInventoryAction implements PharmacistAction {
     private final InventoryManager inventoryManager;
 
