@@ -8,19 +8,53 @@ import entity.users.User;
 import java.util.List;
 
 /**
- * Handles the retrieval and display of a doctor's upcoming appointments.
- * This enables better planning and preparation for patient interactions.
+ * Represents an action to view a doctor's upcoming appointments.
+ * 
+ * <p>
+ * This class retrieves and displays a list of upcoming appointments for the doctor,
+ * helping them prepare for patient interactions. The class interacts with the 
+ * {@link DoctorAppointmentControllerImpl} to fetch the appointment data and uses
+ * {@link UIUtils} for user interaction in the console-based UI.
+ * </p>
  */
 public class ViewUpcomingAppointmentsAction implements DoctorAction {
+    
+    /**
+     * Controller for managing doctor appointments.
+     */
     private final DoctorAppointmentControllerImpl appointmentController;
 
+     /**
+     * Constructs an instance of {@code ViewUpcomingAppointmentsAction}.
+     * Initializes the appointment controller to retrieve the doctor's upcoming appointments.
+     */
     public ViewUpcomingAppointmentsAction() {
         this.appointmentController = DoctorAppointmentControllerImpl.getInstance();
     }
 
+    /**
+     * Executes the action to display the doctor's upcoming appointments.
+     * 
+     * <p>
+     * The steps include:
+     * <ul>
+     *   <li>Retrieving a list of upcoming appointments for the doctor.</li>
+     *   <li>Checking if there are any upcoming appointments.</li>
+     *   <li>Displaying the details of the appointments in a formatted structure.</li>
+     * </ul>
+     * </p>
+     * 
+     * <p>
+     * If there are no upcoming appointments, an error message is displayed.
+     * </p>
+     * 
+     * @param doctor The {@link User} object representing the doctor viewing their upcoming appointments.
+     */
     @Override
     public void execute(User doctor) {
         UIUtils.displayHeader("Upcoming Appointments");
+
+        // Retrieve upcoming appointments for the doctor
         List<Appointment> appointments = appointmentController.getDoctorUpcomingAppointments(doctor.getUserId());
 
         if (appointments.isEmpty()) {
@@ -28,6 +62,7 @@ public class ViewUpcomingAppointmentsAction implements DoctorAction {
             return;
         }
 
+        // Display upcoming appointments
         System.out.println("\nYour upcoming schedule:");
         appointments.forEach(appointment -> System.out.printf("""
             ----------------------------------------
@@ -43,6 +78,8 @@ public class ViewUpcomingAppointmentsAction implements DoctorAction {
                 UIUtils.formatDateTime(appointment.getDateTime()),
                 appointment.getType(),
                 appointment.getStatus()));
+        
+         // Pause for user review
         UIUtils.pressEnterToContinue();
     }
 }
