@@ -9,8 +9,8 @@ import util.UIUtils;
 import java.util.List;
 
 /**
- * Represents the action of viewing a doctor's personal schedule.
- * Provides details of appointments, meetings, and other scheduled activities.
+ * Class for managing the display of a doctor's personal schedule.
+ * Provides functionality to fetch and show upcoming appointments, meetings, and other commitments.
  */
 public class ViewPersonalScheduleAction implements DoctorAction {
     private final DoctorAppointmentController appointmentController;
