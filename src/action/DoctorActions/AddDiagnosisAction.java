@@ -5,8 +5,8 @@ import controller.MedicalRecords.MedicalRecordController;
 import entity.users.User;
 
 /**
- * Represents the action of adding a diagnosis to a patient's medical record.
- * Allows doctors to document new health conditions or symptoms identified during an appointment.
+ * Class for adding diagnostic information to a patient's medical records.
+ * Supports creating new diagnosis entries during or after an appointment.
  */
 public class AddDiagnosisAction implements DoctorAction {
     private final String patientId;
