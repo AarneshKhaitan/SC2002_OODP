@@ -10,8 +10,8 @@ import entity.users.User;
 import java.util.List;
 
 /**
- * Represents the action of viewing patient medical records.
- * Provides access to diagnosis, treatment history, and other relevant details.
+ * Provides functionality to view detailed patient records.
+ * This includes accessing diagnosis histories, treatment plans, and other medical data.
  */
 public class ViewPatientRecordsAction implements DoctorAction {
     private final MedicalRecordController medicalRecordController;
