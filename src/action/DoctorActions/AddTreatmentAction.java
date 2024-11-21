@@ -7,6 +7,10 @@ import entity.users.User;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Handles the action of adding a new treatment for a patient.
+ * Allows doctors to specify treatment details and associate it with a patient's medical record.
+ */
 public class AddTreatmentAction implements DoctorAction {
     private final String patientId;
     private final MedicalRecordController medicalRecordController;
