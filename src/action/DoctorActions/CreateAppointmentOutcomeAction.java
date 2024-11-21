@@ -7,6 +7,10 @@ import entity.users.User;
 import util.AppointmentOutcomeManager;
 import util.UIUtils;
 
+/**
+ * Handles the creation of an appointment outcome.
+ * Allows doctors to document the results or outcomes of a completed appointment.
+ */
 public class CreateAppointmentOutcomeAction implements DoctorAction {
     private final DoctorAppointmentController appointmentController;
 
