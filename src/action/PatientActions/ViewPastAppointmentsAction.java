@@ -11,6 +11,10 @@ import util.UIUtils;
 
 import java.util.List;
 
+/**
+ * Retrieves and displays a list of a patient's past appointments.
+ * Provides access to historical data for reference or follow-up purposes.
+ */
 public class ViewPastAppointmentsAction implements PatientAction {
     private final PatientAppointmentController appointmentController;
 
