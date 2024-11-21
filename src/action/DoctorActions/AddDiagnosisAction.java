@@ -4,6 +4,10 @@ import util.UIUtils;
 import controller.MedicalRecords.MedicalRecordController;
 import entity.users.User;
 
+/**
+ * Represents the action of adding a diagnosis to a patient's medical record.
+ * Allows doctors to document new health conditions or symptoms identified during an appointment.
+ */
 public class AddDiagnosisAction implements DoctorAction {
     private final String patientId;
     private final MedicalRecordController medicalRecordController;
