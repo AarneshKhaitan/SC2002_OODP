@@ -7,6 +7,10 @@ import util.UIUtils;
 
 import java.util.List;
 
+/**
+ * Retrieves and displays available appointment slots for a doctor or service.
+ * Allows patients to choose an appropriate time for scheduling or rescheduling appointments.
+ */
 public class ViewAvailableSlotsAction implements PatientAction {
     private final PatientAppointmentController appointmentController;
 
