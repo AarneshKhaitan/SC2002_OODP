@@ -8,6 +8,10 @@ import util.UIUtils;
 
 import java.util.List;
 
+/**
+ * Class for adding diagnostic information to a patient's medical records.
+ * Supports creating new diagnosis entries during or after an appointment.
+ */
 public class UpdateAppointmentStatusAction implements DoctorAction {
     private final DoctorAppointmentController appointmentController;
 
