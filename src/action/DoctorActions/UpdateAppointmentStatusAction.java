@@ -9,19 +9,55 @@ import util.UIUtils;
 import java.util.List;
 
 /**
- * Class for adding diagnostic information to a patient's medical records.
- * Supports creating new diagnosis entries during or after an appointment.
+ * Represents an action to update the status of a doctor's appointments.
+ * 
+ * <p>
+ * This class allows doctors to view their active appointments and update their status to
+ * "Confirmed," "Completed," or "Cancelled." Upon marking an appointment as completed,
+ * it triggers the creation of an appointment outcome record.
+ * </p>
+ * 
+ * <p>
+ * The class interacts with the {@link DoctorAppointmentController} to retrieve and update
+ * appointment data, and uses {@link UIUtils} for user interaction in the console-based UI.
+ * </p>
  */
 public class UpdateAppointmentStatusAction implements DoctorAction {
+
+    /**
+     * Controller for managing doctor appointments.
+     */
     private final DoctorAppointmentController appointmentController;
 
+    /**
+     * Constructs an instance of {@code UpdateAppointmentStatusAction}.
+     * Initializes the appointment controller to handle status updates for appointments.
+     */
     public UpdateAppointmentStatusAction() {
         this.appointmentController = DoctorAppointmentControllerImpl.getInstance();
     }
 
+    /**
+     * Executes the action to update the status of a doctor's appointments.
+     * 
+     * <p>
+     * The steps include:
+     * <ul>
+     *   <li>Retrieving the list of active appointments for the doctor.</li>
+     *   <li>Displaying the active appointments for selection.</li>
+     *   <li>Allowing the doctor to choose a new status for a selected appointment.</li>
+     *   <li>Persisting the status update via the {@link DoctorAppointmentController}.</li>
+     *   <li>Triggering the creation of an outcome record if the status is set to "Completed."</li>
+     * </ul>
+     * </p>
+     * 
+     * @param doctor The {@link User} object representing the doctor performing the action.
+     */
     @Override
     public void execute(User doctor) {
         UIUtils.displayHeader("Update Appointment Status");
+
+        // Retrieve all appointments for the doctor
         List<Appointment> appointments = appointmentController.getDoctorAppointments(doctor.getUserId());
 
         // Filter for active appointments
@@ -35,12 +71,15 @@ public class UpdateAppointmentStatusAction implements DoctorAction {
             return;
         }
 
+         // Display active appointments
         System.out.println("\nActive Appointments:");
         displayAppointments(activeAppointments);
 
+        // Prompt for the appointment to update
         String appointmentId = UIUtils.promptForString(
                 "Enter appointment ID to update (or press Enter to go back)");
 
+        // Display status options
         if (!appointmentId.isEmpty()) {
             System.out.println("\nSelect new status:");
             System.out.println("1. Confirmed");
@@ -49,6 +88,7 @@ public class UpdateAppointmentStatusAction implements DoctorAction {
 
             int statusChoice = UIUtils.promptForInt("Enter choice", 1, 3);
 
+               // Map user choice to appointment status
             Appointment.AppointmentStatus newStatus = switch (statusChoice) {
                 case 1 -> Appointment.AppointmentStatus.CONFIRMED;
                 case 2 -> Appointment.AppointmentStatus.COMPLETED;
@@ -56,6 +96,7 @@ public class UpdateAppointmentStatusAction implements DoctorAction {
                 default -> throw new IllegalStateException("Unexpected value: " + statusChoice);
             };
 
+            // Confirm the status update and persist changes
             if (UIUtils.promptForYesNo("Confirm status update?")) {
                 boolean success = appointmentController.updateAppointmentStatus(
                         appointmentId, newStatus);
@@ -73,9 +114,16 @@ public class UpdateAppointmentStatusAction implements DoctorAction {
                 }
             }
         }
+        
+         // Pause for user review
         UIUtils.pressEnterToContinue();
     }
 
+     /**
+     * Displays a list of active appointments.
+     * 
+     * @param appointments The list of {@link Appointment} objects to display.
+     */
     private void displayAppointments(List<Appointment> appointments) {
         for (Appointment appointment : appointments) {
             System.out.printf("""
