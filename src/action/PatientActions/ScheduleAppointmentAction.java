@@ -7,6 +7,11 @@ import util.UIUtils;
 
 import java.util.List;
 
+/**
+ * Facilitates the scheduling of new appointments by patients.
+ * Includes selecting a doctor, choosing a preferred time slot,
+ * and confirming the appointment details.
+ */
 public class ScheduleAppointmentAction implements PatientAction {
     private final PatientAppointmentController appointmentController;
 
