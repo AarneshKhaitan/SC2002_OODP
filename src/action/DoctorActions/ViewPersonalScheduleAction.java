@@ -8,6 +8,10 @@ import util.UIUtils;
 
 import java.util.List;
 
+/**
+ * Represents the action of viewing a doctor's personal schedule.
+ * Provides details of appointments, meetings, and other scheduled activities.
+ */
 public class ViewPersonalScheduleAction implements DoctorAction {
     private final DoctorAppointmentController appointmentController;
 
